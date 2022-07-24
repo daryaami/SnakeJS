@@ -7,10 +7,57 @@ body {
 body {
     background: rgb(40, 40, 75);
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 30px;
 }
 /*Делаем границу вокруг игрового поля*/
 canvas {
     border: 1px solid white;
+}
+
+#count {
+    text-align: center;
+    color: black;
+    font-size: 30px;
+    width: 100px;
+    height: 30px;
+    background-color: beige;
+    border: 2px solid rgb(255, 255, 255);
+    padding: 20px 30px 20px 0;
+    position: relative;
+    &::after {
+        position: absolute;
+        content: "";
+        display: block;
+        top: 50%;
+        transform: translate(0,-50%);
+        right: 5px;
+        width: 40px;
+        height: 40px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-image: url("../images/dest/apple.png");
+    }
+}
+
+#gameLost {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    color: darkslategrey;
+    font-size: 30px;
+    background-color: beige;
+    border: 2px solid white;
+    padding: 30px 50px;
+}
+
+.hidden {
+    display: none;
+}
+
+.active {
+    display: block;
 }

@@ -91,7 +91,7 @@ const cleanimg = () => {
 
 const startwatch = () => {
 
-	watch(['**/*.js', '!**/*.min.js'], scripts);
+	watch(['**/*.js', '!**/min.js'], scripts);
 	
 	watch('**/sass/**/*', styles);
 

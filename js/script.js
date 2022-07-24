@@ -25,8 +25,19 @@ var apple = {
     y: 320
 };
 
+var points = 0;
+
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
+}
+
+function notif() {
+    document.getElementById("gameLost").className = "active";
+    setTimeout(
+      () => {
+        document.getElementById("gameLost").className = "hidden";
+      }, 900
+    );
 }
 
 // Игровой цикл
@@ -78,6 +89,8 @@ function loop() {
         if (cell.x === apple.x && cell.y === apple.y) {
         // увеличиваем длину змейки
         snake.maxCells++;
+        points++;
+        document.getElementById("count").innerHTML = `${points}`;
         // Рисуем новое яблочко
         // Помним, что размер холста у нас 400x400, при этом он разбит на ячейки — 25 в каждую сторону
         apple.x = getRandomInt(0, 25) * grid;
@@ -89,15 +102,19 @@ function loop() {
         // Если такие клетки есть — начинаем игру заново
         if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
           // Задаём стартовые параметры основным переменным
+            notif()
             snake.x = 160;
             snake.y = 160;
             snake.cells = [];
             snake.maxCells = 4;
             snake.dx = grid;
             snake.dy = 0;
+            points = 0;
+            document.getElementById("count").innerHTML = `${points}`;
           // Ставим яблочко в случайное место
           apple.x = getRandomInt(0, 25) * grid;
           apple.y = getRandomInt(0, 25) * grid;
+          
         }
         }
     });
