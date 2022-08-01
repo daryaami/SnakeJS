@@ -1,11 +1,14 @@
-var canvas = document.getElementById('game');
-var context = canvas.getContext('2d');
+const canvas = document.getElementById('game');
+const context = canvas.getContext('2d');
+
 // Размер одной клеточки на поле
-var grid = 16;
+let grid = 16;
+
+
 // Служебная переменная, которая отвечает за скорость игры
-var count = 0;
+let count = 0;
 // Сама змейка
-var snake = {
+let snake = {
   // Начальные координаты
     x: 160,
     y: 160,
@@ -19,33 +22,54 @@ var snake = {
     maxCells: 4
 };
 // Еда (красное яблоко)
-var apple = {
+let apple = {
   // Начальные координаты яблока
     x: 320,
     y: 320
 };
 
-var points = 0;
+let points = 0;
+
+const mediaQuery = window.matchMedia('(max-width: 500px)')
+const control = document.querySelector('.control')
+
+if (mediaQuery.matches) {
+  control.innerHTML = `
+  <a href="#"><div id="btn-up" class="btn"></div></a>
+  <div class="control__side">
+      <a href="#"><div id="btn-left" class="btn"></div></a>
+      <a href="#"><div id="btn-right" class="btn"></div></a>
+  </div>
+  <a href="#"><div id="btn-down" class="btn"></div></a>
+  `
+  canvas.height = '350'
+  canvas.width = '350'
+  grid = 14
+  snake.x = 154
+  snake.y = 154
+  apple.x = 308
+  apple.y = 308
+  snake.dx = grid
+  document.getElementById('gameLost').style.fontSize = '24px'
+}
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
 function notif() {
-    document.getElementById("gameLost").className = "active";
+    document.getElementById('gameLost').className = "active";
     setTimeout(
       () => {
-        document.getElementById("gameLost").className = "hidden";
+        document.getElementById('gameLost').className = "hidden";
       }, 900
     );
 }
 
 // Игровой цикл
 function loop() {
-    // Дальше будет хитрая функция, которая замедляет скорость игры с 60 кадров в секунду до 15. 
-    // Функция пропускает три кадра из четырёх, то есть срабатывает каждый четвёртый кадр игры.
     requestAnimationFrame(loop);
-    // Игровой код выполнится только один раз из четырёх, в этом и суть замедления кадров, а пока переменная count меньше четырёх, код выполняться не будет.
+    // Игровой код выполнится только один раз из четырёх
     if (++count < 4) {
         return;
     }
@@ -148,7 +172,28 @@ document.addEventListener('keydown', function (e) {
     }
     });
 
-    requestAnimationFrame(loop);
+document.getElementById('btn-up').onclick = () => {
+  if (snake.dy === 0) {
+    snake.dy = -grid;
+    snake.dx = 0;
+}}
+document.getElementById('btn-left').onclick = () => {
+  if (snake.dx === 0) {
+    snake.dx = -grid;
+    snake.dy = 0;
+}}
+document.getElementById('btn-right').onclick = () => {
+  if (snake.dx === 0) {
+    snake.dx = grid;
+    snake.dy = 0;
+}}
+document.getElementById('btn-down').onclick = () => {
+  if (snake.dy === 0) {
+    snake.dx = 0;
+    snake.dy = grid;
+}}
+
+requestAnimationFrame(loop);
 
 // Как улучшить
 // Этот код — самая простая реализация змейки, и игру можно сделать ещё лучше:
