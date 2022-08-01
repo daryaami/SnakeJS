@@ -4,7 +4,6 @@ const context = canvas.getContext('2d');
 // Размер одной клеточки на поле
 let grid = 16;
 
-
 // Служебная переменная, которая отвечает за скорость игры
 let count = 0;
 // Сама змейка
@@ -35,12 +34,12 @@ const control = document.querySelector('.control')
 
 if (mediaQuery.matches) {
   control.innerHTML = `
-  <a href="#"><div id="btn-up" class="btn"></div></a>
-  <div class="control__side">
-      <a href="#"><div id="btn-left" class="btn"></div></a>
-      <a href="#"><div id="btn-right" class="btn"></div></a>
-  </div>
-  <a href="#"><div id="btn-down" class="btn"></div></a>
+    <button id="btn-up" class="btn" onclick="turnUp()"></button>
+    <div class="control__side">
+      <button id="btn-left" class="btn" onclick="turnLeft()"></button>
+      <button id="btn-right" class="btn" onclick="turnRight()"></button>
+    </div>
+    <button id="btn-down" class="btn" onclick="turnDown()"></button>
   `
   canvas.height = '350'
   canvas.width = '350'
@@ -127,8 +126,13 @@ function loop() {
         if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
           // Задаём стартовые параметры основным переменным
             notif()
-            snake.x = 160;
-            snake.y = 160;
+            if (mediaQuery.matches) {
+              snake.x = 160;
+              snake.y = 160;
+            } else {
+              snake.y = 160;
+              snake.x = 160;
+            }
             snake.cells = [];
             snake.maxCells = 4;
             snake.dx = grid;
@@ -172,26 +176,58 @@ document.addEventListener('keydown', function (e) {
     }
     });
 
-document.getElementById('btn-up').onclick = () => {
-  if (snake.dy === 0) {
-    snake.dy = -grid;
-    snake.dx = 0;
-}}
-document.getElementById('btn-left').onclick = () => {
+let turnLeft = () => {
   if (snake.dx === 0) {
-    snake.dx = -grid;
-    snake.dy = 0;
-}}
-document.getElementById('btn-right').onclick = () => {
-  if (snake.dx === 0) {
-    snake.dx = grid;
-    snake.dy = 0;
-}}
-document.getElementById('btn-down').onclick = () => {
+        snake.dx = -grid;
+        snake.dy = 0;
+  }
+}
+let turnUp = () => {
   if (snake.dy === 0) {
-    snake.dx = 0;
-    snake.dy = grid;
-}}
+        snake.dy = -grid;
+        snake.dx = 0;
+    }
+}
+let turnRight = () => {
+  if (snake.dx === 0) {
+        snake.dx = grid;
+        snake.dy = 0;
+    }
+}
+let turnDown = () => {
+  if (snake.dy === 0) {
+        snake.dx = 0;
+        snake.dy = grid;
+    }
+}
+
+// document.getElementById('btn-up').addEventListener('click', () => {
+//   if (snake.dy === 0) {
+//     snake.dy = -grid;
+//     snake.dx = 0;
+//   } 
+// })
+
+// document.getElementById('btn-up').onclick = () => {
+//   if (snake.dy === 0) {
+//     snake.dy = -grid;
+//     snake.dx = 0;
+// }}
+// document.getElementById('btn-left').onclick = () => {
+//   if (snake.dx === 0) {
+//     snake.dx = -grid;
+//     snake.dy = 0;
+// }}
+// document.getElementById('btn-right').onclick = () => {
+//   if (snake.dx === 0) {
+//     snake.dx = grid;
+//     snake.dy = 0;
+// }}
+// document.getElementById('btn-down').onclick = () => {
+//   if (snake.dy === 0) {
+//     snake.dx = 0;
+//     snake.dy = grid;
+// }}
 
 requestAnimationFrame(loop);
 
